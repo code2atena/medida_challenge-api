@@ -1,0 +1,23 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - openapi_mock
+
+  openapi_mock:
+    container_name: openapi_mock
+    image: muonsoft/openapi-mock
+    volumes:
+    - ./docs/apispecs/3rd-party-api:/etc/openapi
+    environment:
+      OPENAPI_MOCK_SPECIFICATION_URL: '/etc/openapi/openapi.yaml'
+      OPENAPI_MOCK_USE_EXAMPLES: 'if_present'
+    ports:
+      - "9000:8080"
