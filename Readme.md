@@ -15,13 +15,17 @@
    - [API Specification](#api-specification)
    - [Model Definition](#model-definition)
    - [Main Application Logic](#main-application-logic)
-   - [Testing](#testing)
+   - [Unit Testing](#testing)
+   - [Integration Testing](#integration-testing)
    - [Dockerization](#dockerization)
-5. [Conclusion](#conclusion)
+5. [Running Method](#running-method)
+6. [Conclusion](#conclusion)
 
 ## Introduction <a name="introduction"></a>
 
-> This document outlines the architecture, design, and development workflow for the implementation of the Medida Challenge API. The purpose of this API is to provide a RESTful interface for retrieving NFL events data from a remote API and exposing it in a standardized JSON format. The project includes designing and implementing the API, as well as unit and integration testing, and Docker containerization.
+```
+This document outlines the architecture, design, and development workflow for the implementation of the Medida Challenge API. The purpose of this API is to provide a RESTful interface for retrieving NFL events data from a remote API and exposing it in a standardized JSON format. The project includes designing and implementing the API, as well as unit and integration testing, and Docker containerization.
+```
 
 ## Project Overview <a name="project-overview"></a>
 
@@ -107,6 +111,34 @@ The architecture consists of the following components:
 - Dockerize the application for easy deployment and scalability.
 - Use Docker Compose to orchestrate multiple containers, including the main application and mock remote API.
 - Ensure proper configuration of volumes, ports, and dependencies.
+
+## Running Method <a name="running-method"></a>
+
+### Environment Setup
+
+#### 1. Install Docker Engine
+
+> `sudo apt-get update`
+
+> `sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`
+
+#### 2. Install Docker Compose V2
+
+> `mkdir -p ~/.docker/cli-plugins/`
+
+> `curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose`
+
+### Building and executing Docker Container
+
+> `sudo docker compose build`
+
+> `sudo docker compose up -d`
+
+After that, the mock remote API is deployed on http://localhost:9000, as well as API endpoints on http://localhost:8000.
+
+You can use `pytest` to check out all the units are working well.
+
+And also you can checkout APIs navigating to http://localhost:8000/docs for SwaggerUI or use API simulation tool such as Postman and Microcks.
 
 ## Conclusion <a name="conclusion"></a>
 
