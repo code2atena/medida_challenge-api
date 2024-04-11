@@ -18,7 +18,7 @@
    - [Unit Testing](#testing)
    - [Integration Testing](#integration-testing)
    - [Dockerization](#dockerization)
-5. [Running Method](#running-method)
+5. [How To Run](#how-to-run)
 6. [Conclusion](#conclusion)
 
 ## Introduction <a name="introduction"></a>
@@ -112,23 +112,7 @@ The architecture consists of the following components:
 - Use Docker Compose to orchestrate multiple containers, including the main application and mock remote API.
 - Ensure proper configuration of volumes, ports, and dependencies.
 
-## Running Method <a name="running-method"></a>
-
-### Environment Setup
-
-#### 1. Install Docker Engine
-
-> `sudo apt-get update`
-
-> `sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`
-
-#### 2. Install Docker Compose V2
-
-> `mkdir -p ~/.docker/cli-plugins/`
-
-> `curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose`
-
-### Building and executing Docker Container
+## How To Run <a name="how-to-run"></a>
 
 > `sudo docker compose build`
 
