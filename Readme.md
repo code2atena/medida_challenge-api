@@ -15,8 +15,7 @@
    - [API Specification](#api-specification)
    - [Model Definition](#model-definition)
    - [Main Application Logic](#main-application-logic)
-   - [Unit Testing](#testing)
-   - [Integration Testing](#integration-testing)
+   - [Testing](#testing)
    - [Dockerization](#dockerization)
 5. [Conclusion](#conclusion)
 
