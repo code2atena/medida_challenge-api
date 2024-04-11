@@ -29,7 +29,6 @@ class Event(BaseModel):
     awayTeamRankPoints: float
 
 
-
 class EventsRequest(BaseModel):
     """
     Request model for events endpoint
