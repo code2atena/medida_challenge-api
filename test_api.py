@@ -19,6 +19,7 @@ def test_login_for_access_token(test_user):
     """
     response = client.post("/token", data=test_user)
     assert response.status_code == 200
+    assert "access_token" in response.json()
     assert response.json()["token_type"] == "bearer"
 
 def test_login_for_access_token_incorrect():
@@ -39,6 +40,8 @@ def test_polling_events(test_user):
     events_request = {"startDate": "2023-01-01", "endDate": "2023-12-31"}
     response = client.post("/events", headers={"Authorization": f"Bearer {access_token}"}, json=events_request)
     assert response.status_code == 200
+    assert len(response.json()) > 0
+    assert "eventId" in response.json()[0]
 
 
 def test_polling_events_unauthorized():
@@ -67,3 +70,14 @@ def test_edge_cases():
     response = client.post("/events", headers={"Authorization": "Bearer dummy_token"}, json=events_request)
     assert response.status_code == 200
     assert len(response.json()) == 0
+# 
+def test_events_invalid_parameters():
+    """
+    Test case for testing retrieval of events with invalid parameters
+    """
+    response_token = client.post("/token", data={"username": "user1", "password": "password1"})
+    assert response_token.status_code == 200
+    access_token = response_token.json()["access_token"]
+    response_events = client.post("/events", 
+                                  headers={"Authorization": f"Bearer {access_token}"}, json={"startDate": "2023-01-01", "endDate": "2022-12-31"})
+    assert response_events.status_code == 422
