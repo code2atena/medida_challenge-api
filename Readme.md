@@ -1,79 +1,114 @@
-## INTRODUCTION
+# Project Documentation: Medida Challenge API
 
-> The Medida Challenge API is a RESTful API developed to provide dynamic NFL event data. It retrieves data from a remote API, formats it according to specified requirements, and returns it in JSON format.
+## Table of Contents
 
-## API DOCUMENTATION
+1. [Introduction](#introduction)
+2. [Project Overview](#project-overview)
+3. [Architecture Design](#architecture-design)
+   - [Component Overview](#component-overview)
+   - [API Endpoints](#api-endpoints)
+   - [Data Flow](#data-flow)
+   - [Authentication](#authentication)
+   - [Error Handling](#error-handling)
+4. [Development Workflow](#development-workflow)
+   - [Requirements Gathering](#requirements-gathering)
+   - [API Specification](#api-specification)
+   - [Model Definition](#model-definition)
+   - [Main Application Logic](#main-application-logic)
+   - [Unit Testing](#testing)
+   - [Integration Testing](#integration-testing)
+   - [Dockerization](#dockerization)
+5. [Conclusion](#conclusion)
 
-### AUTHENTICATION
+## Introduction <a name="introduction"></a>
 
-- `POST /token`
-  - Endpoint for user login to obtain access token.
-  - Requires username and password in the request body.
-  - Returns an access token upon successful authentication.
+> This document outlines the architecture, design, and development workflow for the implementation of the Medida Challenge API. The purpose of this API is to provide a RESTful interface for retrieving NFL events data from a remote API and exposing it in a standardized JSON format. The project includes designing and implementing the API, as well as unit and integration testing, and Docker containerization.
 
-### ENDPOINTS
+## Project Overview <a name="project-overview"></a>
 
-- `POST /events`
-  - **Summary**: Retrieves a list of NFL events.
-  - **Description**: Returns a list of NFL events including event ID, date, time, home team details (ID, nickname, city, rank, and rank points), and away team details (ID, nickname, city, rank, and rank points).
-  - **Parameters**:
-    - `startDate` (string): Start date for filtering events (format: YYYY-MM-DD).
-    - `endDate` (string): End date for filtering events (format: YYYY-MM-DD).
-  - **Responses**:
-    - `200 OK`: Successful response with a list of event objects.
-    - `400 Bad Request`: Invalid request format.
-    - `401 Unauthorized`: Unauthorized access, invalid credentials.
-    - `500 Internal Server Error`: Server error occurred.
+### Objective:
 
-### DATA MODELS
+The objective of the project is to develop a RESTful API that retrieves NFL events data from a remote API, formats it according to specifications, and exposes it through designated endpoints.
 
-- **EventsRequest**
-  - Request model for /events endpoint.
-  - **Attributes**:
-    - `league` (string): The league (currently supports only "NFL").
-    - `startDate` (string): Start date for filtering events.
-    - `endDate` (string): End date for filtering events.
-- **EventsResponse**
-  - Response model for /events endpoint.
-  - Array of Event objects.
-- **Event**
-  - Data model for an event.
-  - **Attributes**:
-    - `eventId` (string): Unique identifier for the event.
-    - `eventDate` (string): Date of the event (format: YYYY-MM-DD).
-    - `eventTime` (string): Time of the event (format: HH:MM:SS).
-    - `homeTeamId` (string): Unique identifier for the home team.
-    - `homeTeamNickName` (string): Nickname of the home team.
-    - `homeTeamCity` (string): City of the home team.
-    - `homeTeamRank` (integer): Rank of the home team.
-    - `homeTeamRankPoints` (float): Rank points of the home team.
-    - `awayTeamId` (string): Unique identifier for the away team.
-    - `awayTeamNickName` (string): Nickname of the away team.
-    - `awayTeamCity` (string): City of the away team.
-    - `awayTeamRank` (integer): Rank of the away team.
-    - `awayTeamRankPoints` (float): Rank points of the away team.
+### Key Features:
 
-### ERROR HANDLING
+- Integration with a remote API to fetch live NFL events data.
+- Exposing standardized JSON endpoints for retrieving events data.
+- Authentication mechanism for accessing API endpoints.
+- Error handling for providing meaningful error responses.
 
-- The API handles various error scenarios such as invalid requests, unauthorized access, and server errors.
-- Error responses include appropriate status codes and error messages.
+## Architecture Design <a name="architecture-design"></a>
 
-### SECURITY
+### Component Overview <a name="component-overview"></a>
 
-- Authentication is implemented using OAuth2 with password flow.
-- Users must authenticate to obtain an access token for accessing protected endpoints.
+The architecture consists of the following components:
 
-### LOGGING
+- **FastAPI Application:** The core application built using FastAPI, responsible for handling incoming requests and serving responses.
+- **OAuth2 Authentication:** Implements OAuth2 password bearer scheme for user authentication.
+- **HTTP Client:** Asynchronous HTTP client for fetching data from the remote API.
+- **Mock Remote API:** A mock implementation of the remote API for testing purposes.
+- **Unit and Integration Tests:** Ensure the correctness and reliability of the application.
 
-- Utilizes Python logging module for logging execution information, including errors and debug details.
+### API Endpoints <a name="api-endpoints"></a>
 
-### TESTING
+- `POST /token`: Endpoint for user authentication and token generation.
+- `POST /events`: Endpoint for retrieving NFL events data between specified dates.
 
-- Unit and Integration Testing have been implemented to ensure the correctness and robustness of the code using pytest and Testcontainers.
-- Tests cover authentication, endpoint functionality, error handling, and data retrieval.
+### Data Flow <a name="data-flow"></a>
 
-### CONSIDERATIONS
+1. User sends a request to authenticate and obtain an access token.
+2. Authenticated user sends a request to retrieve NFL events data within a specified date range.
+3. FastAPI application fetches data from the remote API using an HTTP client.
+4. Data is formatted according to specifications and returned to the user.
 
-- Data fetching from the remote API is asynchronous to improve performance.
-- Caching mechanism (LRU cache) is applied to reduce redundant data fetching.
+### Authentication <a name="authentication"></a>
 
+- OAuth2 password bearer scheme is used for user authentication.
+- Users must provide a valid username and password to obtain an access token.
+- Access token is included in the Authorization header for subsequent requests.
+
+### Error Handling <a name="error-handling"></a>
+
+- Custom error responses are provided for various scenarios, including authentication failure, bad requests, and internal server errors.
+- Errors are returned with appropriate HTTP status codes and error messages.
+
+## Development Workflow <a name="development-workflow"></a>
+
+### Requirements Gathering <a name="requirements-gathering"></a>
+
+- Understand the project requirements and objectives.
+- Identify key features and endpoints to be implemented.
+- Determine the data format and structure for requests and responses.
+
+### API Specification <a name="api-specification"></a>
+
+- Design the API specification using OpenAPI.
+- Define endpoints, request and response schemas, and security requirements.
+- Specify data validation rules and error responses.
+
+### Model Definition <a name="model-definition"></a>
+
+- Define Pydantic models to represent request and response data structures.
+- Include validation logic for ensuring data integrity.
+
+### Main Application Logic <a name="main-application-logic"></a>
+
+- Implement the core application logic using FastAPI.
+- Handle incoming requests, authenticate users, and fetch data from the remote API.
+- Format data according to specifications and return responses.
+
+### Testing <a name="testing"></a>
+
+- Write unit tests to validate the functionality of individual components.
+- Test model validation, authentication, and data retrieval logic.
+- Ensure edge cases and error scenarios are handled correctly.
+
+### Dockerization <a name="dockerization"></a>
+
+- Dockerize the application for easy deployment and scalability.
+- Use Docker Compose to orchestrate multiple containers, including the main application and mock remote API.
+- Ensure proper configuration of volumes, ports, and dependencies.
+
+## Conclusion <a name="conclusion"></a>
+
+The Medida Challenge API provides a robust solution for retrieving NFL events data and exposing it through standardized endpoints. By following a structured development workflow and adhering to best practices in architecture design, the project ensures scalability, reliability, and maintainability. The use of FastAPI, OAuth2 authentication, and Dockerization contributes to the efficiency and effectiveness of the solution. Overall, the project demonstrates proficiency in API development and engineering practices.
