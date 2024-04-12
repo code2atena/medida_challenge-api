@@ -23,9 +23,7 @@
 
 ## Introduction <a name="introduction"></a>
 
-```
-This document outlines the architecture, design, and development workflow for the implementation of the Medida Challenge API. The purpose of this API is to provide a RESTful interface for retrieving NFL events data from a remote API and exposing it in a standardized JSON format. The project includes designing and implementing the API, as well as unit and integration testing, and Docker containerization.
-```
+> This document outlines the architecture, design, and development workflow for the implementation of the Medida Challenge API. The purpose of this API is to provide a RESTful interface for retrieving NFL events data from a remote API and exposing it in a standardized JSON format. The project includes designing and implementing the API, as well as unit and integration testing, and Docker containerization.
 
 ## Project Overview <a name="project-overview"></a>
 
